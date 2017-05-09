@@ -1,64 +1,49 @@
 export default class Elevator {
   constructor() {
     this.currentFloor = 0;
-    this.previousFloor = null;
     this.floorsTraversed = 0;
+    this.direction = '';
     this.stops = 0;
     this.requests = [];
     this.riders = [];
     this.motionStatus = 'idle';
   }
 
-  currentFloor() {
-    return this.currentFloor;
-  }
-
   goToFloor(rider) {
-    this.requests.push(rider);
-    this.currentFloor = rider.dropOffFloor;
-    if(this.requests.length > 1) {
-      this.previousFloor = this.requests[this.requests.length - 2].dropOffFloor;
-    }
+    const { name, pickUpFloor, dropOffFloor } = rider;
+    this.requests.push({ pickUpFloor, dropOffFloor });
+    this.riders.push({ name });
+    this.motionStatus = 'moving';
   }
 
   getFloorsTraversed(request) {
-    const { currentFloor, dropOffFloor } = request;
-    if (!this.previousFloor) {
-      currentFloor > dropOffFloor ? currentFloor + Math.abs(currentFloor - dropOffFloor) : this.floorsTraversed = request.dropOffFloor
-    } else {
-
-    }
+    const { pickUpFloor, dropOffFloor } = request;
+    this.floorsTraversed = Math.abs(this.currentFloor - pickUpFloor) + Math.abs(pickUpFloor - dropOffFloor)
+    this.currentFloor = dropOffFloor;
+    this.motionStatus = 'idle';
+    this.removeRequest(request)
   }
 
-  // getFloorsTraversed(request) {
-  //   const { currentFloor, dropOffFloor } = request;
-  //   if(this.previousFloor) {
-  //     if (this.previousFloor > currentFloor && currentFloor > dropOffFloor) {
-  //       this.floorsTraversed = (this.previousFloor - currentFloor) + (currentFloor - dropOffFloor);
-  //     }
-  //   } else if (currentFloor > dropOffFloor) {
-  //     this.floorsTraversed = currentFloor + (currentFloor - dropOffFloor);
-  //   } else {
-  //     this.floorsTraversed = currentFloor + dropOffFloor;
-  //   }
-  // }
+  dropOffRider(rider) {
+    return this.riders = this.riders.filter(rider => rider !== rider)
+  }
+
+  removeRequest(request) {
+    return this.requests = this.requests.filter(request => request !== request)
+  }
 
   getStops() {
-    return this.requests.reduce((stops, request) => {
-      stops = [];
+    return this.requests.reduce((acc, request) => {
+      acc = [];
       this.getFloorsTraversed(request)
-      stops.push(request.currentFloor, request.dropOffFloor)
-      return stops;
+      acc.push(request.pickUpFloor, request.dropOffFloor)
+      this.stops++;
+      return acc;
     }, []);
   }
 
   reset() {
-    this.currentFloor = 0;
-    this.previousFloor = null;
-    this.floorsTraversed = 0;
-    this.stops = 0;
-    this.requests = [];
-    this.riders = [];
-    this.motionStatus = 'idle';
+    this.constructor();
   }
+
 }
