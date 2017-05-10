@@ -78,8 +78,8 @@ describe('Elevator', function() {
   })
 
   it('should take Rider 1 up and Rider 2 up', () => {
-    const rider1 = new Rider({ name: "Bob", pickUpFloor: 3, dropOffFloor: 9 });
-    const rider2 = new Rider({ name: "Sue", pickUpFloor: 4, dropOffFloor: 11 });
+    const rider1 = new Rider({ name: "Bob", pickUpFloor: 3, dropOffFloor: 9, time: 14 });
+    const rider2 = new Rider({ name: "Sue", pickUpFloor: 4, dropOffFloor: 11, time: 14 });
 
     elevator.goToFloor(rider1);
     assert.equal(elevator.riders.length, 1)
@@ -108,8 +108,8 @@ describe('Elevator', function() {
   })
 
   it('should take Rider 1 up and Rider 2 down', () => {
-    const rider1 = new Rider({ name: "Bob", pickUpFloor: 3, dropOffFloor: 9 });
-    const rider2 = new Rider({ name: "Sue", pickUpFloor: 6, dropOffFloor: 2 });
+    const rider1 = new Rider({ name: "Bob", pickUpFloor: 3, dropOffFloor: 9, time: 14 });
+    const rider2 = new Rider({ name: "Sue", pickUpFloor: 6, dropOffFloor: 2, time: 14 });
 
     elevator.goToFloor(rider1);
     assert.equal(elevator.riders.length, 1)
@@ -194,7 +194,7 @@ describe('Elevator', function() {
     assert.equal(elevator.requests.length, 0)
   })
 
-  it.only('should return to floor 0 when there are no riders and current time is before 12:00 p.m.', () => {
+  it('should return to floor 0 when there are no riders and current time is before 12:00 p.m.', () => {
     const rider = new Rider({ name: "Brittany", pickUpFloor: 2, dropOffFloor: 5, time: 6.00 });
 
     elevator.goToFloor(rider);
