@@ -12,6 +12,7 @@ export default class Elevator {
     this.requests.push(rider);
     this.riders.push(rider);
     this.motionStatus = 'moving';
+    this.stops++;
   }
 
   getFloorsTraversed(request) {
@@ -23,8 +24,9 @@ export default class Elevator {
   }
 
   dropOffRider(rider) {
+    this.stops++;
     this.riders = this.riders.filter(rider => rider !== rider);
-    this.checkTime(rider.dropOffFloor, rider.time)
+    this.checkTime(rider.dropOffFloor, rider.time);
   }
 
   removeRequest(request) {
@@ -36,15 +38,14 @@ export default class Elevator {
       acc = [];
       this.getFloorsTraversed(request)
       acc.push(request.pickUpFloor, request.dropOffFloor)
-      this.stops++;
       return acc;
     }, []);
   }
 
   checkTime(dropOffFloor, time) {
     if (time < 12 && !this.riders.length) {
-      this.stops++;
       this.floorsTraversed = this.floorsTraversed + dropOffFloor;
+      this.stops++;
       return this.currentFloor = 0;
     }
     return this.currentFloor;

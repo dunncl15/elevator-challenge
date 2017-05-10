@@ -88,6 +88,7 @@ describe('Elevator', function() {
     assert.equal(elevator.stops, 1)
 
     elevator.dropOffRider(rider1);
+    assert.equal(elevator.stops, 2)
     assert.equal(elevator.floorsTraversed, 9);
     assert.equal(elevator.riders.length, 0)
     assert.equal(elevator.requests.length, 0)
@@ -96,9 +97,10 @@ describe('Elevator', function() {
     assert.equal(elevator.riders.length, 1)
     assert.equal(elevator.requests.length, 1)
     assert.deepEqual(elevator.getStops(), [4, 11]);
-    assert.equal(elevator.stops, 2)
+    assert.equal(elevator.stops, 3)
 
     elevator.dropOffRider(rider2);
+    assert.equal(elevator.stops, 4)
     assert.equal(elevator.floorsTraversed, 12);
     assert.equal(elevator.riders.length, 0)
     assert.equal(elevator.requests.length, 0)
@@ -116,17 +118,19 @@ describe('Elevator', function() {
     assert.equal(elevator.stops, 1)
 
     elevator.dropOffRider(rider1);
+    assert.equal(elevator.stops, 2)
     assert.equal(elevator.floorsTraversed, 9);
     assert.equal(elevator.riders.length, 0)
     assert.equal(elevator.requests.length, 0)
 
     elevator.goToFloor(rider2);
+    assert.equal(elevator.stops, 3)
     assert.equal(elevator.riders.length, 1)
     assert.equal(elevator.requests.length, 1)
     assert.deepEqual(elevator.getStops(), [6, 2]);
-    assert.equal(elevator.stops, 2)
 
     elevator.dropOffRider(rider2);
+    assert.equal(elevator.stops, 4)
     assert.equal(elevator.floorsTraversed, 7)
     assert.equal(elevator.riders.length, 0)
     assert.equal(elevator.requests.length, 0)
@@ -143,6 +147,7 @@ describe('Elevator', function() {
     assert.equal(elevator.stops, 1)
 
     elevator.dropOffRider(rider1);
+    assert.equal(elevator.stops, 2)
     assert.equal(elevator.floorsTraversed, 16);
     assert.equal(elevator.riders.length, 0)
     assert.equal(elevator.requests.length, 0)
@@ -151,9 +156,10 @@ describe('Elevator', function() {
     assert.equal(elevator.riders.length, 1)
     assert.equal(elevator.requests.length, 1)
     assert.deepEqual(elevator.getStops(), [6, 13]);
-    assert.equal(elevator.stops, 2)
+    assert.equal(elevator.stops, 3)
 
     elevator.dropOffRider(rider2);
+    assert.equal(elevator.stops, 4)
     assert.equal(elevator.floorsTraversed, 9)
     assert.equal(elevator.riders.length, 0)
     assert.equal(elevator.requests.length, 0)
@@ -170,6 +176,7 @@ describe('Elevator', function() {
     assert.equal(elevator.stops, 1)
 
     elevator.dropOffRider(rider1);
+    assert.equal(elevator.stops, 2)
     assert.equal(elevator.floorsTraversed, 16);
     assert.equal(elevator.riders.length, 0)
     assert.equal(elevator.requests.length, 0)
@@ -178,25 +185,27 @@ describe('Elevator', function() {
     assert.equal(elevator.riders.length, 1)
     assert.equal(elevator.requests.length, 1)
     assert.deepEqual(elevator.getStops(), [15, 5]);
-    assert.equal(elevator.stops, 2)
+    assert.equal(elevator.stops, 3)
 
     elevator.dropOffRider(rider2);
+    assert.equal(elevator.stops, 4)
     assert.equal(elevator.floorsTraversed, 21)
     assert.equal(elevator.riders.length, 0)
     assert.equal(elevator.requests.length, 0)
   })
 
-  it('should return to floor 0 when there are no riders and current time is before 12:00 p.m.', () => {
+  it.only('should return to floor 0 when there are no riders and current time is before 12:00 p.m.', () => {
     const rider = new Rider({ name: "Brittany", pickUpFloor: 2, dropOffFloor: 5, time: 6.00 });
 
     elevator.goToFloor(rider);
+    assert.equal(elevator.stops, 1)
     assert.deepEqual(elevator.getStops(), [2, 5]);
     assert.equal(elevator.currentFloor, 5);
 
     elevator.dropOffRider(rider);
     assert.equal(elevator.floorsTraversed, 10);
     assert.equal(elevator.currentFloor, 0);
-    assert.equal(elevator.stops, 2)
+    assert.equal(elevator.stops, 3)
   })
 
   it('should stay at the dropoff floor when there are no riders and the current time is after 12:00 p.m.', () => {
@@ -205,11 +214,12 @@ describe('Elevator', function() {
     elevator.goToFloor(rider);
     assert.deepEqual(elevator.getStops(), [2, 5]);
     assert.equal(elevator.currentFloor, 5);
+    assert.equal(elevator.stops, 1)
 
     elevator.dropOffRider(rider);
     assert.equal(elevator.floorsTraversed, 5);
     assert.equal(elevator.currentFloor, 5);
-    assert.equal(elevator.stops, 1)
+    assert.equal(elevator.stops, 2)
   })
 
 });
